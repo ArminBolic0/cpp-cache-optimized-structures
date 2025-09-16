@@ -33,6 +33,8 @@ The benchmark compares **AoS** and **SoA** for **field-centric operations**:
 ## 📊 Example Results
 <img width="227" height="54" alt="Screenshot_1" src="https://github.com/user-attachments/assets/b9c8187a-693c-4395-a65b-4226fc1f7cba" />
 
+---
+
 ##🛠️ How to compile
 
 To run it, just clone the repository and compile using g++ or any C++17-compatible compiler.
