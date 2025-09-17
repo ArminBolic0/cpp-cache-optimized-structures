@@ -11,9 +11,10 @@ This repository has **two main goals**:
 
 This folder demonstrates the difference between two common **data layout strategies**:  
 
-- **AoS (Array of Structures)** – store complete objects in a single array.  
+- **AoS (Array of Structures)** – store complete objects in a single array.
+- { {x, y, z...}, {x, y, z...}...}
 - **SoA (Structure of Arrays)** – store each field of the objects in separate arrays.  
-
+{ {x, x, x...} {y, y, y...}, {z, z, z...}... }
 ---
 
 ## ⚡ Benchmark Explanation
