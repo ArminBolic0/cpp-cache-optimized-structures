@@ -7,7 +7,7 @@ This repository has **two main goals**:
 
 ---
 
-### 1.`AoS-SoA/`
+# 1.`AoS-SoA/`
 
 This folder demonstrates the difference between two common **data layout strategies**:  
 
@@ -51,8 +51,9 @@ g++ -O2 -std=c++17 aos_vs_soa.cpp -o benchmark
 ---
 We use "-O2" to enable compiler optimizations for more realistic results.
 
+------------------------------------------
 
-### 2.Vector Allocation Benchmarks
+# 2.Vector Allocation Benchmarks
 
 This project benchmarks different **vector-like data structures** and **allocation strategies** in C++.  
 The goal is to explore how **cache locality** and **custom memory allocation** impact performance when working with millions of elements.
