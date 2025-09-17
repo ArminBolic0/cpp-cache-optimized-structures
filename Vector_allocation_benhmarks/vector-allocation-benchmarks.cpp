@@ -37,7 +37,7 @@ public:
     }
 
     ~PoolAllocator() {
-        for (auto buffer: buffers)
+        for (auto buffer : buffers)
         {
             delete[] buffer; buffer = nullptr;
         }
@@ -84,7 +84,7 @@ public:
 //CHUNKED VECTOR WITH POOL ALLOCATION
 
 template<typename T, size_t CHUNK_SIZE = 64> // CHUNK_SIZE - number of elements in each chunk, can be modified 
-class ChunkedVectorPoolAllocation 
+class ChunkedVectorPoolAllocation
 {
     std::vector<T*> chunks; // here each pointer points to a chunk
     size_t size = 0;
@@ -114,37 +114,51 @@ double benchmarkStdVector(size_t n = 10'000'000, int repeat = 5) {
         auto start = Clock::now();
         std::vector<int> v;
         v.reserve(n);
-        for (size_t k = 0; k < n; k++) v.push_back(i);
+        for (size_t k = 0; k < n; k++) v.push_back(k);
+        volatile long long sum = 0;
+        for (size_t k = 0; k < v.size(); i++) sum += v[i];
         auto end = Clock::now();
-        std::chrono::duration<double> duration = end - start; 
+        std::chrono::duration<double> duration = end - start;
         bestTime = std::min(bestTime, duration.count());
     }
     return bestTime;
 }
 
-double benchmarkChunkedVector(size_t n) {
-    auto start = Clock::now();
-    ChunkedVector<int> v;
-    for (size_t i = 0; i < n; i++) v.push_back(i);
-    volatile long long sum = 0;
-    for (size_t i = 0; i < v.get_size(); i++) sum += v[i];
-    auto end = Clock::now();
-    return std::chrono::duration<double>(end - start).count();
+double benchmarkChunkedVector(size_t n = 10'000'000, int repeat = 5) {
+    double bestTime;
+    for (size_t i = 0; i < repeat; i++)
+    {
+        auto start = Clock::now();
+        ChunkedVector<int> v;
+        for (size_t k = 0; k < n; k++) v.push_back(k);
+        volatile long long sum = 0;
+        for (size_t k = 0; k < v.get_size(); k++) sum += v[k];
+        auto end = Clock::now();
+        std::chrono::duration<double> duration = end - start;
+        bestTime = std::min(bestTime, duration.count());
+    }
+    return bestTime;
 }
 
 double benchmarkChunkedVectorPooled(size_t n) {
-    auto start = Clock::now();
-    ChunkedVectorPoolAllocation<int> v;
-    for (size_t i = 0; i < n; i++) v.push_back(i);
-    volatile long long sum = 0;
-    for (size_t i = 0; i < v.get_size(); i++) sum += v[i];
-    auto end = Clock::now();
-    return std::chrono::duration<double>(end - start).count();
+    double bestTime;
+    for (size_t i = 0; i < repeat; i++)
+    {
+        auto start = Clock::now();
+        ChunkedVectorPoolAllocation<int> v;
+        for (size_t k = 0; k < n; k++) v.push_back(k);
+        volatile long long sum = 0;
+        for (size_t k = 0; k < v.get_size(); k++) sum += v[k];
+        auto end = Clock::now();
+        std::chrono::duration<double> duration = end - start;
+        bestTime = std::min(bestTime, duration.count());
+    }
+    return bestTime;
 }
 
 int main()
 {
-    std::vector<size_t> testSizes = {5'000'000, 10'000'000, 25'000'000 };
+    std::vector<size_t> testSizes = { 5'000'000, 10'000'000, 25'000'000 };
 
     std::cout << std::fixed << std::setprecision(6);
     std::cout << "Benchmark results (times in seconds)\n\n";
