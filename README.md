@@ -29,6 +29,10 @@ The benchmark compares **AoS** and **SoA** for **field-centric operations**:
   When we frequently work with *entire objects*.  
   - **AoS is more efficient** because all fields of an object are stored together in memory.  
 
+Although in theory SoA should always be faster than AoS in field-centric operations, in practice AoS can outperform even in that situation, if structs are tightly packed(thats why i added padding to AoS struct, without it AoS outperforms SoA even in field-centric operations).
+This shows us that real performance is not straightforward always, its not only about data-layout, its also about alignment, cache line utilization and also compiler optimizations.
+
+
 ---
 
 ## 📊 Example Results
