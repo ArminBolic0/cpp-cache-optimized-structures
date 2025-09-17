@@ -40,7 +40,8 @@ The benchmark compares **AoS** and **SoA** for **field-centric operations**:
 To run it, just clone the repository and compile using g++ or any C++17-compatible compiler.
 
 If u compile with g++, run this:
+---
 g++ -O2 -std=c++17 aos_vs_soa.cpp -o benchmark
 ./benchmark
-
-We use "-02" to enable compiler optimizations for more realistic results.
+---
+We use "-O2" to enable compiler optimizations for more realistic results.
