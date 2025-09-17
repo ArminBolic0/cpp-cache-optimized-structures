@@ -7,7 +7,7 @@ This repository has **two main goals**:
 
 ---
 
-### `AoS-SoA/`
+# 1.`AoS-SoA/`
 
 This folder demonstrates the difference between two common **data layout strategies**:  
 
@@ -50,3 +50,49 @@ g++ -O2 -std=c++17 aos_vs_soa.cpp -o benchmark
 ./benchmark
 ---
 We use "-O2" to enable compiler optimizations for more realistic results.
+
+------------------------------------------
+
+# 2.Vector Allocation Benchmarks
+
+This project benchmarks different **vector-like data structures** and **allocation strategies** in C++.  
+The goal is to explore how **cache locality** and **custom memory allocation** impact performance when working with millions of elements.
+
+---
+
+## 🚀 Structures Compared
+
+- **`std::vector`**  
+  The baseline — contiguous dynamic array from the C++ standard library.  
+
+- **`ChunkedVector (new[])`**  
+  Stores elements in fixed-size chunks allocated with `new[]`.  
+  Avoids huge contiguous allocations, reduces risk of fragmentation.  
+
+- **`ChunkedVector (pooled)`**  
+  Same as above, but chunks are allocated from a custom **pool allocator**.  
+  Pooling improves **spatial locality** and reduces **system allocator overhead**.  
+
+---
+
+## 🧪 Benchmark Setup
+
+- **Compiler:** MSVC / GCC / Clang (any modern C++17+)  
+- **Method:** Insert `N` integers, then traverse and sum them.  
+- **Timer:** `std::chrono::high_resolution_clock`  
+- **Repetitions:** Best of 5 runs for `std::vector`.  
+
+---
+
+## 📈 Results (Example Run)
+
+Benchmark results (times in seconds)
+
+           N    std::vector       ChunkedVector   ChunkedVector (pooled)Speedup (pooled/std)
+     5000000       0.354432            0.281099                 0.270492            1.310326x
+    10000000       0.625534            0.558821                 0.521470            1.199560x
+    25000000       1.607019            1.457597                 1.432007            1.122214x4x faster
+
+    
+<img width="784" height="109" alt="Screenshot_3" src="https://github.com/user-attachments/assets/f2fcd5ee-7303-4438-946d-29ea7cb65c09" />
+
