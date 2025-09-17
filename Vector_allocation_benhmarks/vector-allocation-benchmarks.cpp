@@ -18,13 +18,11 @@ template<typename T>
 class PoolAllocator
 {
     std::vector<T*> buffers;
-    //T* buffer;
     size_t capacity; // this is how many element we can store
     size_t offset;   // this is how many we already use
 public:
     PoolAllocator(size_t cap) : capacity(cap), offset(0) {
         buffers.push_back(new T[cap]);
-        //buffer = new T[cap]; // we allocate one big block of memory to optimize allocation, with this we avoid system calls, we just use pointer arithmetic
     }
 
     T* allocate(size_t n) {
@@ -39,7 +37,6 @@ public:
     }
 
     ~PoolAllocator() {
-        //delete[] buffer;
         for (auto buffer: buffers)
         {
             delete[] buffer; buffer = nullptr;
